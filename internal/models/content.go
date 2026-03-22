@@ -123,6 +123,31 @@ type ContactInfo struct {
 	UpdatedAt   time.Time      `db:"updated_at" json:"updated_at"`
 }
 
+// ContactInfoResponse is the JSON-safe version of ContactInfo (plain strings instead of sql.NullString)
+type ContactInfoResponse struct {
+	ID          int       `json:"id"`
+	Address     string    `json:"address"`
+	Phone       string    `json:"phone"`
+	Email       string    `json:"email"`
+	MapEmbedURL string    `json:"map_embed_url"`
+	LineID      string    `json:"line_id"`
+	FacebookURL string    `json:"facebook_url"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+func (c *ContactInfo) ToResponse() *ContactInfoResponse {
+	return &ContactInfoResponse{
+		ID:          c.ID,
+		Address:     c.Address.String,
+		Phone:       c.Phone.String,
+		Email:       c.Email.String,
+		MapEmbedURL: c.MapEmbedURL.String,
+		LineID:      c.LineID.String,
+		FacebookURL: c.FacebookURL.String,
+		UpdatedAt:   c.UpdatedAt,
+	}
+}
+
 type PublicCompany struct {
 	ID           string         `db:"id" json:"id"`
 	Name         string         `db:"name" json:"name"`

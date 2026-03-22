@@ -215,3 +215,23 @@ func (s *CourseService) GetCourseTutors(ctx context.Context, courseID string) ([
 func (s *CourseService) SetCourseTutors(ctx context.Context, courseID string, tutorIDs []string) error {
 	return s.courseRepo.SetCourseTutors(ctx, courseID, tutorIDs)
 }
+
+func (s *CourseService) ListDocuments(ctx context.Context, courseID string) ([]models.CourseDocument, error) {
+	return s.courseRepo.ListDocuments(ctx, courseID)
+}
+
+func (s *CourseService) AddDocument(ctx context.Context, courseID, name, filePath string, order int) (*models.CourseDocument, error) {
+	return s.courseRepo.AddDocument(ctx, courseID, name, filePath, order)
+}
+
+func (s *CourseService) UpdateDocument(ctx context.Context, id, name string) error {
+	return s.courseRepo.UpdateDocument(ctx, id, name)
+}
+
+func (s *CourseService) DeleteDocument(ctx context.Context, id string) error {
+	return s.courseRepo.DeleteDocument(ctx, id)
+}
+
+func (s *CourseService) GetDocument(ctx context.Context, id string) (*models.CourseDocument, error) {
+	return s.courseRepo.GetDocument(ctx, id)
+}

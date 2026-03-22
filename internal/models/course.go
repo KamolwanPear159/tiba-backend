@@ -89,27 +89,27 @@ type CourseSession struct {
 // ─── Request DTOs ──────────────────────────────────────────────────────────────
 
 type CreateCourseRequest struct {
-	Title             string          `json:"title" validate:"required"`
-	Description       string          `json:"description"`
-	Format            CourseFormat    `json:"format" validate:"required,oneof=onsite online"`
-	OnlineMeetingLink string          `json:"online_meeting_link"`
-	PriceType         CoursePriceType `json:"price_type" validate:"required,oneof=single dual"`
-	PriceGeneral      *float64        `json:"price_general"`
-	PriceAssociation  *float64        `json:"price_association"`
-	TotalHours        *int            `json:"total_hours"`
-	IsPublished       bool            `json:"is_published"`
+	Title             string          `json:"title" form:"title" validate:"required"`
+	Description       string          `json:"description" form:"description"`
+	Format            CourseFormat    `json:"format" form:"format" validate:"required,oneof=onsite online"`
+	OnlineMeetingLink string          `json:"online_meeting_link" form:"online_meeting_link"`
+	PriceType         CoursePriceType `json:"price_type" form:"price_type" validate:"required,oneof=single dual"`
+	PriceGeneral      *float64        `json:"price_general" form:"price_general"`
+	PriceAssociation  *float64        `json:"price_association" form:"price_association"`
+	TotalHours        *int            `json:"total_hours" form:"total_hours"`
+	IsPublished       bool            `json:"is_published" form:"is_published"`
 }
 
 type UpdateCourseRequest struct {
-	Title             string          `json:"title"`
-	Description       string          `json:"description"`
-	Format            CourseFormat    `json:"format"`
-	OnlineMeetingLink string          `json:"online_meeting_link"`
-	PriceType         CoursePriceType `json:"price_type"`
-	PriceGeneral      *float64        `json:"price_general"`
-	PriceAssociation  *float64        `json:"price_association"`
-	TotalHours        *int            `json:"total_hours"`
-	IsPublished       *bool           `json:"is_published"`
+	Title             string          `json:"title" form:"title"`
+	Description       string          `json:"description" form:"description"`
+	Format            CourseFormat    `json:"format" form:"format"`
+	OnlineMeetingLink string          `json:"online_meeting_link" form:"online_meeting_link"`
+	PriceType         CoursePriceType `json:"price_type" form:"price_type"`
+	PriceGeneral      *float64        `json:"price_general" form:"price_general"`
+	PriceAssociation  *float64        `json:"price_association" form:"price_association"`
+	TotalHours        *int            `json:"total_hours" form:"total_hours"`
+	IsPublished       *bool           `json:"is_published" form:"is_published"`
 }
 
 type CreateSessionRequest struct {
@@ -132,6 +132,17 @@ type UpdateSessionRequest struct {
 	TrainingEnd     string     `json:"training_end"`
 	IsCancelled     *bool      `json:"is_cancelled"`
 	CancelReason    string     `json:"cancel_reason"`
+}
+
+// ─── Course Document ──────────────────────────────────────────────────────────
+
+type CourseDocument struct {
+	ID           string    `db:"id" json:"id"`
+	CourseID     string    `db:"course_id" json:"course_id"`
+	Name         string    `db:"name" json:"name"`
+	FilePath     string    `db:"file_path" json:"file_path"`
+	DisplayOrder int       `db:"display_order" json:"display_order"`
+	CreatedAt    time.Time `db:"created_at" json:"created_at"`
 }
 
 // ─── Public list item (enriched with next session) ────────────────────────────

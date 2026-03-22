@@ -335,6 +335,40 @@ func (r *CourseRepository) ListTrainingCalendar(ctx context.Context, month, year
 	return result, nil
 }
 
+// ─── Course Documents ─────────────────────────────────────────────────────────
+
+func (r *CourseRepository) ListDocuments(ctx context.Context, courseID string) ([]models.CourseDocument, error) {
+	var docs []models.CourseDocument
+	err := r.db.SelectContext(ctx, &docs,
+		`SELECT * FROM course_documents WHERE course_id=$1 ORDER BY display_order ASC, created_at ASC`, courseID)
+	return docs, err
+}
+
+func (r *CourseRepository) AddDocument(ctx context.Context, courseID, name, filePath string, order int) (*models.CourseDocument, error) {
+	var doc models.CourseDocument
+	err := r.db.GetContext(ctx, &doc, `
+		INSERT INTO course_documents (course_id, name, file_path, display_order)
+		VALUES ($1, $2, $3, $4)
+		RETURNING *`, courseID, name, filePath, order)
+	return &doc, err
+}
+
+func (r *CourseRepository) UpdateDocument(ctx context.Context, id, name string) error {
+	_, err := r.db.ExecContext(ctx, `UPDATE course_documents SET name=$1, updated_at=now() WHERE id=$2`, name, id)
+	return err
+}
+
+func (r *CourseRepository) DeleteDocument(ctx context.Context, id string) error {
+	_, err := r.db.ExecContext(ctx, `DELETE FROM course_documents WHERE id=$1`, id)
+	return err
+}
+
+func (r *CourseRepository) GetDocument(ctx context.Context, id string) (*models.CourseDocument, error) {
+	var doc models.CourseDocument
+	err := r.db.GetContext(ctx, &doc, `SELECT * FROM course_documents WHERE id=$1`, id)
+	return &doc, err
+}
+
 func nullableFloat64(f sql.NullFloat64) interface{} {
 	if !f.Valid {
 		return nil

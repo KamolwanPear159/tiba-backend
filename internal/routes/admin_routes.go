@@ -137,6 +137,15 @@ func RegisterAdminRoutes(
 		admin.GET("/courses/:id/sessions", courseCtrl.ListSessions)
 		admin.POST("/courses/:id/sessions", courseCtrl.CreateSession)
 
+		// Course thumbnail
+		admin.POST("/courses/:id/thumbnail", courseCtrl.UploadThumbnail)
+
+		// Course documents
+		admin.GET("/courses/:id/documents", courseCtrl.ListDocuments)
+		admin.POST("/courses/:id/documents", courseCtrl.AddDocument)
+		admin.PUT("/courses/:id/documents/:doc_id", courseCtrl.UpdateDocument)
+		admin.DELETE("/courses/:id/documents/:doc_id", courseCtrl.DeleteDocument)
+
 		// Sessions
 		admin.GET("/sessions/:id", courseCtrl.GetSession)
 		admin.PUT("/sessions/:id", courseCtrl.UpdateSession)
